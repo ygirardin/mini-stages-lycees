@@ -3,7 +3,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const fields = ['lycee', 'commune', 'adresse', 'formation', 'domaine', 'type_formation', 'date_debut', 'date_fin', 'horaire', 'public', 'places', 'date_ouverture_inscription', 'date_limite_inscription', 'description', 'metiers', 'modalites', 'url_inscription', 'contact_email', 'contact_telephone', 'url_lycee', 'url_document'];
+  const fields = ['lycee', 'commune', 'adresse', 'formation', 'domaine', 'type_formation', 'date_debut', 'date_fin', 'horaire', 'public', 'places', 'date_publication', 'date_ouverture_inscription', 'date_limite_inscription', 'description', 'metiers', 'modalites', 'url_inscription', 'contact_email', 'contact_telephone', 'url_lycee', 'url_document'];
   let rows = [], editId = null, changed = false;
   const clean = value => String(value ?? '').trim();
   const element = (tag, cls, content) => { const node = document.createElement(tag); if (cls) node.className = cls; if (content !== undefined) node.textContent = content; return node; };
@@ -24,6 +24,7 @@
       const r = cleanRecord(raw, index);
       if (!r.lycee || !r.commune || !r.formation || !r.domaine || (r.date_debut && !validDate(r.date_debut))) throw new Error(`Fiche ${index + 1} : lycée, commune ou formation manquant / date invalide.`);
       if (r.date_fin && (!validDate(r.date_fin) || (r.date_debut && r.date_fin < r.date_debut))) throw new Error(`Fiche ${index + 1} : date de fin invalide.`);
+      if (r.date_publication && !validDate(r.date_publication)) throw new Error(`Fiche ${index + 1} : date de publication invalide.`);
       if (r.date_ouverture_inscription && !validDate(r.date_ouverture_inscription)) throw new Error(`Fiche ${index + 1} : date d'ouverture des demandes invalide.`);
       if (r.date_limite_inscription && !validDate(r.date_limite_inscription)) throw new Error(`Fiche ${index + 1} : date limite invalide.`);
       if (r.date_ouverture_inscription && r.date_limite_inscription && r.date_ouverture_inscription > r.date_limite_inscription) throw new Error(`Fiche ${index + 1} : la fin de la période des demandes doit être postérieure ou égale à son début.`);
@@ -65,7 +66,18 @@
     for (const key of fields) r[key] = key === 'places' ? ($(key).value === '' ? null : Number($(key).value)) : clean($(key).value);
     return validateList([r])[0];
   }
-  function serialized() { return JSON.stringify(rows, null, 2) + '\n'; }
+  function parisToday() {
+    const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year:'numeric', month:'2-digit', day:'2-digit' }).formatToParts(new Date());
+    const bits = Object.fromEntries(parts.map(p => [p.type, p.value]));
+    return bits.year + '-' + bits.month + '-' + bits.day;
+  }
+  // Les nouvelles offres reçoivent une date de référence lors de leur export.
+  // Si leur publication dans GitHub est différée, actualiser cette date dans le JSON.
+  function serialized() {
+    const now = parisToday();
+    const published = rows.map(row => ({ ...row, date_publication: row.date_publication || now }));
+    return JSON.stringify(published, null, 2) + '\n';
+  }
   function download() {
     const blob = new Blob([serialized()], { type: 'application/json;charset=utf-8' });
     const url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = 'mini-stages.json'; document.body.append(a); a.click(); a.remove();
