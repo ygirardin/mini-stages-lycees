@@ -77,11 +77,11 @@ Le fichier `data/mini-stages.json` contient un tableau de fiches. Exemple de for
 
 **Champs indispensables :** `lycee`, `commune`, `formation`, `domaine`. La date du mini-stage (`date_debut`) peut rester vide si elle est inconnue. `date_ouverture_inscription` correspond à l'ouverture de la période de dépôt des demandes, et `date_limite_inscription` à sa clôture. Les dates sont au format `AAAA-MM-JJ` et peuvent rester vides si elles n'ont pas été annoncées. Les autres champs sont facultatifs. Pour `places`, laissez `null` si la capacité est inconnue ; `0` signale « complet » ; un entier positif indique des places annoncées, **sans garantie en temps réel**. `date_fin` sert aux mini-stages sur plusieurs jours. Une fiche = une session ou une plage de dates.
 
-Les résultats sont automatiquement triés par date. Les filtres permettent de chercher par mots-clés, domaine, commune, période et statut. Une date passée, une date limite dépassée et un nombre de places à zéro sont distingués. Un mini-stage dont l'échéance n'est pas dépassée reste **à confirmer auprès du lycée**.
+Les résultats sont automatiquement triés par date. Les filtres permettent de chercher par mots-clés, domaine, commune, période et statut. Le feu vert s'affiche uniquement lorsque la période de dépôt des demandes est ouverte et complète (deux dates connues). Le feu rouge indique une clôture, une session passée ou des places épuisées. Les informations incomplètes sont indiquées en gris.
 
 ## 4. Mode démonstration (séparé des vraies offres)
 
-Le catalogue réel lit **uniquement** `data/mini-stages.json`, qui est vide à la livraison.
+Le catalogue réel lit **uniquement** `data/mini-stages.json`, qui contient désormais les offres du GARAC et du lycée Ferdinand Buisson.
 
 Pour tester le site avec cinq fiches **entièrement fictives**, ajoutez `?demo=1` à l'adresse du site :
 
