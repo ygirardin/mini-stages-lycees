@@ -64,9 +64,10 @@ Le fichier `data/mini-stages.json` contient un tableau de fiches. Exemple de for
     "horaire": "9h00 – 12h00",
     "public": "Élèves de 3e",
     "places": 12,
+    "date_ouverture_inscription": "2027-01-05",
     "date_limite_inscription": "2027-01-12",
     "description": "Visite des ateliers et activités proposées.",
-    "modalites": "Prévoir une convention de mini-stage.",
+    "modalites": "L’établissement scolaire réalise la demande, puis le lycée d’accueil lui transmet la convention.",
     "url_inscription": "https://exemple.fr/inscription",
     "contact_email": "contact@exemple.fr",
     "url_lycee": "https://exemple.fr"
@@ -74,7 +75,7 @@ Le fichier `data/mini-stages.json` contient un tableau de fiches. Exemple de for
 ]
 ```
 
-**Champs indispensables :** `lycee`, `commune`, `formation`, `domaine`, `date_debut` (format `AAAA-MM-JJ`). Les autres champs sont facultatifs. Pour `places`, laissez `null` si la capacité est inconnue ; `0` signale « complet » ; un entier positif indique des places annoncées, **sans garantie en temps réel**. `date_fin` sert aux mini-stages sur plusieurs jours. Une fiche = une session ou une plage de dates.
+**Champs indispensables :** `lycee`, `commune`, `formation`, `domaine`. La date du mini-stage (`date_debut`) peut rester vide si elle est inconnue. `date_ouverture_inscription` correspond à l'ouverture de la période de dépôt des demandes, et `date_limite_inscription` à sa clôture. Les dates sont au format `AAAA-MM-JJ` et peuvent rester vides si elles n'ont pas été annoncées. Les autres champs sont facultatifs. Pour `places`, laissez `null` si la capacité est inconnue ; `0` signale « complet » ; un entier positif indique des places annoncées, **sans garantie en temps réel**. `date_fin` sert aux mini-stages sur plusieurs jours. Une fiche = une session ou une plage de dates.
 
 Les résultats sont automatiquement triés par date. Les filtres permettent de chercher par mots-clés, domaine, commune, période et statut. Une date passée, une date limite dépassée et un nombre de places à zéro sont distingués. Un mini-stage dont l'échéance n'est pas dépassée reste **à confirmer auprès du lycée**.
 
@@ -134,3 +135,23 @@ Licence recommandée : code librement réutilisable pour un usage éducatif ; v�
 Le dépôt contient le contrôle `scripts/verifier-donnees.mjs` et le workflow `.github/workflows/verifier-donnees.yml`. À chaque modification de la branche `main`, GitHub Actions vérifie que les JSON sont valides, que les dates et les liens ont un format correct, et que les offres fictives de démonstration ne sont pas copiées dans le catalogue réel. Les résultats sont visibles dans l'onglet **Actions** du dépôt.
 
 Pour lancer le contrôle en local, installez Node.js puis exécutez `node scripts/verifier-donnees.mjs` à la racine du projet. Le contrôle signale les erreurs, mais ne bloque pas à lui seul la publication GitHub Pages ; pensez à consulter son résultat.
+
+## Proposer un mini-stage depuis le site (collègues et lycées)
+
+Le bouton **Proposer un mini-stage** ouvre la page `proposer.html`. Elle renvoie vers un formulaire GitHub, accessible à toute personne disposant d'un **compte GitHub** gratuit.
+
+- Le lycée ou la collègue soumet les informations de l'offre via l'issue form `.github/ISSUE_TEMPLATE/proposer-mini-stage.yml`.
+- La proposition est **publique sur GitHub**, mais n'est pas affichée immédiatement dans le catalogue. Aucune donnée personnelle d'élève ne doit être saisie.
+- Le propriétaire du dépôt vérifie l'offre dans l'onglet **Issues**. Pour la publier, il ajoute **exactement** le commentaire `/publier-mini-stage` sur la proposition correspondante.
+- Le workflow `.github/workflows/publier-mini-stage.yml` vérifie le formulaire, met à jour `data/mini-stages.json`, puis ferme l'issue. Il ne fonctionne que pour un commentaire du propriétaire du dépôt et nécessite GitHub Actions activé avec les permissions d'écriture du `GITHUB_TOKEN`.
+- Si la vérification échoue, consulter l'onglet **Actions** puis corriger la proposition avant de relancer la validation par un nouveau commentaire `/publier-mini-stage`. Le formulaire ne publie **jamais** automatiquement des offres non vérifiées.
+
+**L'inscription de l'élève ne se fait pas sur ce site.** Le secrétariat de son établissement scolaire envoie la demande dans la période indiquée (date d'ouverture et date de clôture). Le lycée d'accueil revient vers cet établissement et lui envoie une convention.
+
+### Feu de signalisation des inscriptions
+
+- **Vert – Inscription possible** : les deux dates de la période de demandes sont connues et le jour actuel est compris entre elles, bornes incluses, et aucune fermeture n'est signalée.
+- **Rouge – Inscription terminée** : la période est clôturée, le mini-stage est passé ou le nombre annoncé de places est égal à zéro.
+- **Gris – À confirmer / ouverture à venir** : la période n'a pas commencé ou une des dates nécessaires manque. Le site n'affiche jamais un feu vert sur la base d'une seule date.
+
+Les libellés sont affichés en texte à côté des feux, pour rester accessibles sans perception des couleurs.
