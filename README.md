@@ -176,3 +176,19 @@ Les dates d'inscription sont distinctes des dates du mini-stage. Chaque fiche po
 - **Gris – À confirmer / ouverture à venir** : la période n'a pas commencé ou une date indispensable à son calcul manque.
 
 Les libellés sont affichés en texte à côté des feux, pour rester accessibles sans perception des couleurs.
+
+## Nouvelle charte graphique (novembre 2026)
+
+Le site adopte une identité plus dynamique (bleu intense, turquoise, corail, jaune et violet), tout en restant lisible pour les élèves, les familles et les personnels.
+
+- `theme-vibrant.css` : nouvelle feuille de style, chargée après `styles.css` sur le catalogue, le formulaire de proposition et l'administration. Les adaptations se font prioritairement dans cette feuille.
+- `assets/hero-orientation.svg` : illustration vectorielle originale de **quatre élèves fictifs** à la recherche de leur orientation, sans photographie réelle ni donnée personnelle.
+- Le moteur de recherche conserve les mêmes identifiants et fonctionnalités ; il est simplement mis davantage en avant en haut de la page.
+- Les visuels des domaines professionnels sont générés à partir de catégories réellement publiées, sans ajouter de faux mini-stages.
+- Les statuts rouge « Inscription terminée », vert « Inscription possible » et gris « Période à confirmer » restent accompagnés de leur libellé textuel.
+- Des adaptations pour les écrans mobiles et le mode « réduction des animations » sont prévues.
+
+### Personnaliser les couleurs
+
+Les variables CSS (`--royal`, `--coral`, `--teal`, `--violet`, `--sunny`) sont définies dans `theme-vibrant.css`. Vérifiez la lisibilité des textes avant tout changement.
+
