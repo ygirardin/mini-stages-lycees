@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143b52"><meta name="robots" content="noindex,nofollow">
+  <title>Gestion des offres — Mini-stages des lycées</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="admin.js" defer></script>
+</head>
+<body class="admin-body">
+  <a href="#formTitle" class="skip-link">Aller au formulaire</a>
+  <header class="site-header"><div class="container nav-inner"><a href="./" class="brand" aria-label="Retour au catalogue"><span class="brand-mark" aria-hidden="true"><svg width="29" height="29" viewBox="0 0 32 32" fill="none"><path d="M3 12 16 5l13 7-13 7L3 12Z" fill="#F0C587"/><path d="M8 18v6c5 4 11 4 16 0v-6l-8 4-8-4Z" fill="white"/><path d="M27 14v10" stroke="#F0C587" stroke-width="2" stroke-linecap="round"/></svg></span><span class="brand-text"><strong>mini-stages<span class="brand-dot">.</span></strong><small>Gestion des offres</small></span></a><nav class="main-nav" aria-label="Navigation"><a href="./">← Retour au catalogue</a></nav><a class="mobile-nav-link" href="./">← Le site</a></div></header>
+  <main>
+    <section class="admin-top"><div class="container"><div class="section-kicker">ESPACE DE PRÉPARATION DES OFFRES</div><h1>Gérer les mini-stages<br>sans écrire de code.</h1><p>Ajoutez et modifiez les fiches, puis exportez le fichier prêt à publier sur GitHub. Cet espace est un éditeur local : il n'envoie aucune donnée sur un serveur.</p></div></section>
+    <div class="container admin-layout">
+      <div>
+        <section class="admin-panel" aria-labelledby="formTitle"><h2 id="formTitle">Ajouter un mini-stage</h2><p class="subtle">Une fiche correspond à une séance ou à une période d'immersion. Les champs marqués d'un * sont obligatoires.</p>
+          <div class="admin-intro-note"><strong>Attention :</strong> les modifications ne sont pas publiées immédiatement. Exportez le JSON, puis remplacez le fichier du dépôt GitHub pour mettre le site à jour.</div>
+          <form id="stageForm" class="admin-form">
+            <div class="field wide"><label for="lycee">Nom du lycée <span class="req">*</span></label><input id="lycee" name="lycee" required maxlength="140" placeholder="Ex. : Lycée des Métiers …"></div>
+            <div class="field"><label for="commune">Commune <span class="req">*</span></label><input id="commune" name="commune" required maxlength="90" placeholder="Ex. : …"></div>
+            <div class="field"><label for="adresse">Adresse du lycée</label><input id="adresse" name="adresse" maxlength="240" placeholder="Rue et commune"></div>
+            <div class="field wide"><label for="formation">Formation à découvrir <span class="req">*</span></label><input id="formation" name="formation" required maxlength="170" placeholder="Ex. : Bac pro Métiers du commerce et de la vente"></div>
+            <div class="field"><label for="domaine">Domaine <span class="req">*</span></label><select id="domaine" name="domaine" required><option value="">Choisir un domaine</option><option>Arts, design et communication</option><option>Bâtiment et travaux publics</option><option>Commerce et vente</option><option>Énergie et industrie</option><option>Hôtellerie et restauration</option><option>Numérique</option><option>Santé et social</option><option>Transport et logistique</option><option>Agriculture et environnement</option><option>Services et administration</option><option>Autre</option></select></div>
+            <div class="field"><label for="type_formation">Type de formation</label><select id="type_formation" name="type_formation"><option value="">À préciser</option><option>CAP</option><option>Bac pro</option><option>Bac techno</option><option>Bac général</option><option>Seconde professionnelle</option><option>BTS</option><option>Autre</option></select></div>
+            <div class="field"><label for="date_debut">Date du mini-stage <span class="req">*</span></label><input id="date_debut" name="date_debut" type="date" required></div>
+            <div class="field"><label for="date_fin">Date de fin (facultatif)</label><input id="date_fin" name="date_fin" type="date"><span class="hint">Pour une immersion sur plusieurs jours.</span></div>
+            <div class="field"><label for="horaire">Horaires</label><input id="horaire" name="horaire" placeholder="Ex. : 9h00 – 12h00" maxlength="80"></div>
+            <div class="field"><label for="public">Public concerné</label><input id="public" name="public" value="Élèves de 3e" maxlength="90"></div>
+            <div class="field"><label for="places">Places annoncées</label><input id="places" name="places" type="number" min="0" step="1" placeholder="Ex. : 12"><span class="hint">Laisser vide si le nombre est inconnu. 0 signifie complet.</span></div>
+            <div class="field"><label for="date_limite_inscription">Date limite d'inscription</label><input id="date_limite_inscription" name="date_limite_inscription" type="date"></div>
+            <div class="field wide"><label for="description">Ce que les élèves vont découvrir</label><textarea id="description" name="description" rows="3" maxlength="1400" placeholder="Visite des ateliers, activités proposées, échanges avec les élèves…"></textarea></div>
+            <div class="field wide"><label for="modalites">Modalités pratiques / inscription</label><textarea id="modalites" name="modalites" rows="3" maxlength="1400" placeholder="Convention, autorisation, équipement à prévoir, procédure…"></textarea></div>
+            <div class="field wide"><label for="url_inscription">Lien d'inscription</label><input id="url_inscription" name="url_inscription" type="url" placeholder="https://…"><span class="hint">Le lien doit être public, accessible aux élèves ou à leurs familles.</span></div>
+            <div class="field"><label for="contact_email">Adresse mail du lycée</label><input id="contact_email" name="contact_email" type="email" placeholder="contact@lycee.fr"></div>
+            <div class="field"><label for="url_lycee">Site internet du lycée</label><input id="url_lycee" name="url_lycee" type="url" placeholder="https://…"></div>
+            <div class="admin-form-actions"><button type="submit" class="button button-dark" id="saveButton">Ajouter cette fiche <span aria-hidden="true">＋</span></button><button type="button" class="admin-secondary" id="cancelEdit" hidden>Annuler la modification</button></div>
+          </form>
+          <p role="status" id="formStatus" class="admin-status" hidden></p>
+        </section>
+        <section class="admin-panel admin-records" aria-labelledby="recordsTitle"><div class="admin-records-head"><h2 id="recordsTitle">Offres préparées</h2><span class="admin-count" id="recordCount">0 fiche</span></div><div id="recordsList" class="record-list"></div></section>
+      </div>
+      <aside class="admin-sidebar" aria-label="Guide de publication">
+        <section class="admin-panel"><h2>Comment publier ?</h2><ol class="admin-steps"><li><strong>Renseignez les fiches</strong> à l'aide du formulaire.</li><li><strong>Téléchargez le fichier</strong> <code>mini-stages.json</code>.</li><li>Sur GitHub, ouvrez <code>data/mini-stages.json</code> dans votre dépôt.</li><li><strong>Remplacez son contenu</strong> par le JSON exporté, puis validez la modification.</li><li>Le catalogue sera actualisé après la publication GitHub Pages.</li></ol></section>
+        <section class="admin-panel"><h2>Enregistrer les données</h2><p class="subtle">L'export reprend toutes les fiches préparées dans cette page.</p><div class="admin-actions"><button type="button" id="downloadButton" class="button button-dark">↓ Télécharger le JSON</button><button type="button" id="copyButton" class="admin-secondary">Copier le JSON</button></div><p role="status" id="exportStatus" class="admin-status" hidden></p></section>
+        <section class="admin-panel"><h2>Reprendre des données</h2><p class="subtle">Les offres actuellement publiées sont chargées au démarrage. Vous pouvez aussi importer un fichier précédemment exporté.</p><div class="import-row"><label class="import-label" for="importFile">↑ Importer un JSON<input type="file" id="importFile" accept="application/json,.json"></label><button class="admin-secondary" type="button" id="reloadButton">Recharger le site</button></div><div class="admin-alert"><strong>À savoir :</strong> cette page n'est pas protégée par mot de passe, mais elle ne peut pas modifier le site en ligne. Seules les personnes autorisées à publier dans votre dépôt GitHub peuvent valider les changements.</div></section>
+        <section class="admin-panel"><h2>Besoin d'aide ?</h2><p class="subtle">Le fichier <code>README.md</code> contient le guide d'installation sur GitHub Pages et les consignes de mise à jour.</p><a class="compact-link" href="./">Voir le catalogue public ↗</a></section>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-bottom"><span>Éditeur local de mini-stages — aucune donnée d'élève n'est collectée.</span><a href="./">Retour au site public</a></div></footer>
+</body>
+</html>

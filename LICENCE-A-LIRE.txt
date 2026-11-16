@@ -1,0 +1,3 @@
+Ce projet est une maquette fonctionnelle destinée à être adaptée au secteur concerné.
+Les données de démonstration sont fictives. Aucun nom d'établissement réel n'est supposé.
+Pour une diffusion avec du code ouvert, choisissez et ajoutez une licence explicite.
