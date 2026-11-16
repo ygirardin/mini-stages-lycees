@@ -3,7 +3,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const fields = ['lycee', 'commune', 'adresse', 'formation', 'domaine', 'type_formation', 'date_debut', 'date_fin', 'horaire', 'public', 'places', 'date_limite_inscription', 'description', 'metiers', 'modalites', 'url_inscription', 'contact_email', 'contact_telephone', 'url_lycee', 'url_document'];
+  const fields = ['lycee', 'commune', 'adresse', 'formation', 'domaine', 'type_formation', 'date_debut', 'date_fin', 'horaire', 'public', 'places', 'date_ouverture_inscription', 'date_limite_inscription', 'description', 'metiers', 'modalites', 'url_inscription', 'contact_email', 'contact_telephone', 'url_lycee', 'url_document'];
   let rows = [], editId = null, changed = false;
   const clean = value => String(value ?? '').trim();
   const element = (tag, cls, content) => { const node = document.createElement(tag); if (cls) node.className = cls; if (content !== undefined) node.textContent = content; return node; };
@@ -24,7 +24,9 @@
       const r = cleanRecord(raw, index);
       if (!r.lycee || !r.commune || !r.formation || !r.domaine || (r.date_debut && !validDate(r.date_debut))) throw new Error(`Fiche ${index + 1} : lycée, commune ou formation manquant / date invalide.`);
       if (r.date_fin && (!validDate(r.date_fin) || (r.date_debut && r.date_fin < r.date_debut))) throw new Error(`Fiche ${index + 1} : date de fin invalide.`);
+      if (r.date_ouverture_inscription && !validDate(r.date_ouverture_inscription)) throw new Error(`Fiche ${index + 1} : date d'ouverture des demandes invalide.`);
       if (r.date_limite_inscription && !validDate(r.date_limite_inscription)) throw new Error(`Fiche ${index + 1} : date limite invalide.`);
+      if (r.date_ouverture_inscription && r.date_limite_inscription && r.date_ouverture_inscription > r.date_limite_inscription) throw new Error(`Fiche ${index + 1} : la fin de la période des demandes doit être postérieure ou égale à son début.`);
       if (r.places !== null && (!Number.isInteger(r.places) || r.places < 0)) throw new Error(`Fiche ${index + 1} : places invalides.`);
       if (!safeUrl(r.url_inscription) || !safeUrl(r.url_lycee)) throw new Error(`Fiche ${index + 1} : utiliser des liens http(s).`);
       return r;
