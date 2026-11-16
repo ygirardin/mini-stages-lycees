@@ -23,21 +23,34 @@
   function validEmail(value) { const v = text(value); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : ''; }
   function node(tag, className, content) { const n = document.createElement(tag); if (className) n.className = className; if (content !== undefined) n.textContent = content; return n; }
   function appendTextLine(parent, className, label) { const line = node('div', className); line.textContent = label; parent.append(line); return line; }
+  // Dates de demande distinctes de celles du mini-stage.
+  // La date de publication est stockée dans la fiche et ne varie pas lors des visites.
+  function demandePeriode(stage) {
+    const openingKnown = text(stage.date_ouverture_inscription);
+    const publication = text(stage.date_publication);
+    const opening = openingKnown || (dateObject(publication) ? publication : '');
+    const closingKnown = text(stage.date_limite_inscription);
+    let closing = closingKnown;
+    if (!closing && opening) {
+      let year = Number(opening.slice(0, 4));
+      if (opening > `${year}-05-01`) year += 1;
+      closing = `${year}-05-01`;
+    }
+    return { opening, closing, openingAuto: !openingKnown && !!opening, closingAuto: !closingKnown && !!closing };
+  }
   function demandeDates(stage) {
-    const start = text(stage.date_ouverture_inscription), end = text(stage.date_limite_inscription);
-    if (start && end) return `Du ${prettyDate(start)} au ${prettyDate(end)}`;
-    if (start) return `À partir du ${prettyDate(start)} — date de clôture à confirmer`;
-    if (end) return `Date d'ouverture à confirmer — date limite annoncée : ${prettyDate(end)}`;
-    return 'Période de dépôt des demandes à confirmer';
+    const period = demandePeriode(stage);
+    if (!period.opening || !period.closing) return 'Période à préciser (date de publication manquante)';
+    return `Du ${prettyDate(period.opening)} au ${prettyDate(period.closing)}`;
   }
   function stageStatus(stage) {
     const lastStageDate = text(stage.date_fin || stage.date_debut);
-    const opening = text(stage.date_ouverture_inscription), deadline = text(stage.date_limite_inscription);
+    const { opening, closing } = demandePeriode(stage);
     if (lastStageDate && lastStageDate < today) return { code: 'closed', label: 'Inscription terminée' };
     if (stage.places !== null && stage.places !== undefined && stage.places !== '' && Number(stage.places) === 0) return { code: 'closed', label: 'Inscription terminée (complet)' };
-    if (deadline && deadline < today) return { code: 'closed', label: 'Inscription terminée' };
+    if (closing && closing < today) return { code: 'closed', label: 'Inscription terminée' };
     if (opening && today < opening) return { code: 'upcoming', label: 'Ouverture à venir' };
-    if (opening && deadline && opening <= today && today <= deadline) return { code: 'open', label: 'Inscription possible' };
+    if (opening && closing && opening <= today && today <= closing) return { code: 'open', label: 'Inscription possible' };
     return { code: 'upcoming', label: 'Période à confirmer' };
   }
   function sortStages(a, b) { return text(a.date_debut).localeCompare(text(b.date_debut)) || text(a.lycee).localeCompare(text(b.lycee), 'fr'); }
@@ -93,6 +106,8 @@
     detailInfo(infos, 'Public', stage.public);
     detailInfo(infos, 'Places annoncées', stage.places === null || stage.places === undefined || stage.places === '' ? '' : `${stage.places} place(s)`);
     detailInfo(infos, 'Période pour déposer une demande', demandeDates(stage));
+    const effective = demandePeriode(stage);
+    if (effective.openingAuto || effective.closingAuto) detailInfo(infos, 'Dates par défaut', [effective.openingAuto ? 'Ouverture dès la publication' : '', effective.closingAuto ? 'Clôture automatique au 1er mai' : ''].filter(Boolean).join(' · '));
     detailInfo(infos, 'Adresse', stage.adresse);
     body.append(infos);
     for (const [heading, value] of [['À propos de ce mini-stage', stage.description], ['Métiers à découvrir', stage.metiers], ['Modalités pratiques', stage.modalites]]) {
