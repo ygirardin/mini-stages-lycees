@@ -23,11 +23,22 @@
   function validEmail(value) { const v = text(value); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : ''; }
   function node(tag, className, content) { const n = document.createElement(tag); if (className) n.className = className; if (content !== undefined) n.textContent = content; return n; }
   function appendTextLine(parent, className, label) { const line = node('div', className); line.textContent = label; parent.append(line); return line; }
+  function demandeDates(stage) {
+    const start = text(stage.date_ouverture_inscription), end = text(stage.date_limite_inscription);
+    if (start && end) return `Du ${prettyDate(start)} au ${prettyDate(end)}`;
+    if (start) return `À partir du ${prettyDate(start)} — date de clôture à confirmer`;
+    if (end) return `Date d'ouverture à confirmer — date limite annoncée : ${prettyDate(end)}`;
+    return 'Période de dépôt des demandes à confirmer';
+  }
   function stageStatus(stage) {
-    if (text(stage.date_fin || stage.date_debut) && text(stage.date_fin || stage.date_debut) < today) return { code: 'past', label: 'Terminé' };
+    const lastStageDate = text(stage.date_fin || stage.date_debut);
+    const opening = text(stage.date_ouverture_inscription), deadline = text(stage.date_limite_inscription);
+    if (lastStageDate && lastStageDate < today) return { code: 'past', label: 'Terminé' };
     if (stage.places !== null && stage.places !== undefined && stage.places !== '' && Number(stage.places) === 0) return { code: 'full', label: 'Complet (indiqué)' };
-    if (text(stage.date_limite_inscription) && stage.date_limite_inscription < today) return { code: 'closed', label: 'Délai dépassé' };
-    return { code: 'upcoming', label: text(stage.date_debut) ? 'À venir' : 'Dates à confirmer' };
+    if (deadline && deadline < today) return { code: 'closed', label: 'Délai dépassé' };
+    if (opening && today < opening) return { code: 'upcoming', label: 'Demandes pas encore ouvertes' };
+    if (opening && deadline && opening <= today && today <= deadline) return { code: 'open', label: 'Période de demandes en cours' };
+    return { code: 'upcoming', label: 'Période des demandes à confirmer' };
   }
   function sortStages(a, b) { return text(a.date_debut).localeCompare(text(b.date_debut)) || text(a.lycee).localeCompare(text(b.lycee), 'fr'); }
   function unique(values) { return [...new Set(values.map(text).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })); }
@@ -53,6 +64,7 @@
     const meta = node('div', 'card-meta');
     appendTextLine(meta, 'meta-line', `◷   ${datesText(stage)}${stage.horaire ? ` · ${text(stage.horaire)}` : ''}`);
     appendTextLine(meta, 'meta-line', `◎   ${text(stage.commune) || 'Lieu à préciser'}`);
+    appendTextLine(meta, 'meta-line', `✎   Demandes : ${demandeDates(stage)}`);
     if (stage.places !== null && stage.places !== '' && stage.places !== undefined) appendTextLine(meta, 'meta-line', `◇   ${Number(stage.places)} place(s) indiquée(s)`);
     top.append(meta);
     card.append(top);
@@ -80,13 +92,13 @@
     detailInfo(infos, 'Horaires', stage.horaire);
     detailInfo(infos, 'Public', stage.public);
     detailInfo(infos, 'Places annoncées', stage.places === null || stage.places === undefined || stage.places === '' ? '' : `${stage.places} place(s)`);
-    detailInfo(infos, 'Limite d’inscription', stage.date_limite_inscription ? prettyDate(stage.date_limite_inscription) : '');
+    detailInfo(infos, 'Période pour déposer une demande', demandeDates(stage));
     detailInfo(infos, 'Adresse', stage.adresse);
     body.append(infos);
     for (const [heading, value] of [['À propos de ce mini-stage', stage.description], ['Métiers à découvrir', stage.metiers], ['Modalités pratiques', stage.modalites]]) {
       if (!text(value)) continue; const block = node('section', 'detail-block'); block.append(node('h3', '', heading), node('p', '', text(value))); body.append(block);
     }
-    const inscription = node('section','detail-block'); inscription.append(node('h3','','Comment s’inscrire ?'), node('p','','Pour toute inscription, prenez d’abord contact avec le secrétariat de votre établissement scolaire (collège ou lycée). Il vous indiquera les démarches et les modalités du lycée d’accueil.')); body.append(inscription);
+    const inscription = node('section','detail-block'); inscription.append(node('h3','','Comment se déroule la demande ?'), node('p','',`1. Pendant la période de demandes annoncée, prenez contact avec le secrétariat de votre établissement scolaire (collège ou lycée) pour qu’il effectue l’inscription. 2. L’établissement proposant le mini-stage revient ensuite vers l’établissement qui a inscrit l’élève et lui transmet une convention. 3. Le secrétariat vous accompagne pour les formalités à accomplir avant l’immersion.`)); body.append(inscription);
     const links = node('div', 'detail-links'); const registrationUrl = validUrl(stage.url_inscription), schoolUrl = validUrl(stage.url_lycee), email = validEmail(stage.contact_email);
     if (!demoMode && registrationUrl) links.append(actionLink('Consulter l’inscription  ↗', registrationUrl, 'button button-dark'));
     if (!demoMode && schoolUrl) links.append(actionLink('Site du lycée ↗', schoolUrl));
@@ -106,8 +118,8 @@
       if (domain && text(s.domaine) !== domain) return false;
       if (city && text(s.commune) !== city) return false;
       if (month && !text(s.date_debut).startsWith(month)) return false;
-      if (statusFilter === 'upcoming' && status.code === 'past') return false;
-      if (statusFilter === 'open' && status.code !== 'upcoming') return false;
+      if (statusFilter === 'upcoming' && !['upcoming', 'open'].includes(status.code)) return false;
+      if (statusFilter === 'open' && status.code !== 'open') return false;
       return true;
     });
   }
