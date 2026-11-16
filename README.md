@@ -64,6 +64,7 @@ Le fichier `data/mini-stages.json` contient un tableau de fiches. Exemple de for
     "horaire": "9h00 – 12h00",
     "public": "Élèves de 3e",
     "places": 12,
+    "date_publication": "2026-11-16",
     "date_ouverture_inscription": "2027-01-05",
     "date_limite_inscription": "2027-01-12",
     "description": "Visite des ateliers et activités proposées.",
@@ -77,7 +78,7 @@ Le fichier `data/mini-stages.json` contient un tableau de fiches. Exemple de for
 
 **Champs indispensables :** `lycee`, `commune`, `formation`, `domaine`. La date du mini-stage (`date_debut`) peut rester vide si elle est inconnue. `date_ouverture_inscription` correspond à l'ouverture de la période de dépôt des demandes, et `date_limite_inscription` à sa clôture. Les dates sont au format `AAAA-MM-JJ` et peuvent rester vides si elles n'ont pas été annoncées. Les autres champs sont facultatifs. Pour `places`, laissez `null` si la capacité est inconnue ; `0` signale « complet » ; un entier positif indique des places annoncées, **sans garantie en temps réel**. `date_fin` sert aux mini-stages sur plusieurs jours. Une fiche = une session ou une plage de dates.
 
-Les résultats sont automatiquement triés par date. Les filtres permettent de chercher par mots-clés, domaine, commune, période et statut. Le feu vert s'affiche uniquement lorsque la période de dépôt des demandes est ouverte et complète (deux dates connues). Le feu rouge indique une clôture, une session passée ou des places épuisées. Les informations incomplètes sont indiquées en gris.
+Les résultats sont automatiquement triés par date. Les filtres permettent de chercher par mots-clés, domaine, commune, période et statut. Le feu vert s'affiche lorsque la période effective (dates annoncées ou calculées par défaut) est en cours. Le feu rouge indique une clôture, une session passée ou des places épuisées. Les informations incomplètes sont indiquées en gris.
 
 ## 4. Mode démonstration (séparé des vraies offres)
 
@@ -136,22 +137,42 @@ Le dépôt contient le contrôle `scripts/verifier-donnees.mjs` et le workflow `
 
 Pour lancer le contrôle en local, installez Node.js puis exécutez `node scripts/verifier-donnees.mjs` à la racine du projet. Le contrôle signale les erreurs, mais ne bloque pas à lui seul la publication GitHub Pages ; pensez à consulter son résultat.
 
-## Proposer un mini-stage depuis le site (collègues et lycées)
+## Proposer un mini-stage SANS compte GitHub (collègues et lycées)
 
-Le bouton **Proposer un mini-stage** ouvre la page `proposer.html`. Elle renvoie vers un formulaire GitHub, accessible à toute personne disposant d'un **compte GitHub** gratuit.
+Depuis l'accueil, le bouton **Proposer un mini-stage** ouvre `proposer.html`, un formulaire sur le site. Les contributeurs n'ont **pas besoin de créer un compte GitHub**.
 
-- Le lycée ou la collègue soumet les informations de l'offre via l'issue form `.github/ISSUE_TEMPLATE/proposer-mini-stage.yml`.
-- La proposition est **publique sur GitHub**, mais n'est pas affichée immédiatement dans le catalogue. Aucune donnée personnelle d'élève ne doit être saisie.
-- Le propriétaire du dépôt vérifie l'offre dans l'onglet **Issues**. Pour la publier, il ajoute **exactement** le commentaire `/publier-mini-stage` sur la proposition correspondante.
-- Le workflow `.github/workflows/publier-mini-stage.yml` vérifie le formulaire, met à jour `data/mini-stages.json`, puis ferme l'issue. Il ne fonctionne que pour un commentaire du propriétaire du dépôt et nécessite GitHub Actions activé avec les permissions d'écriture du `GITHUB_TOKEN`.
-- Si la vérification échoue, consulter l'onglet **Actions** puis corriger la proposition avant de relancer la validation par un nouveau commentaire `/publier-mini-stage`. Le formulaire ne publie **jamais** automatiquement des offres non vérifiées.
+### Activer la réception des propositions (configuration du responsable)
 
-**L'inscription de l'élève ne se fait pas sur ce site.** Le secrétariat de son établissement scolaire envoie la demande dans la période indiquée (date d'ouverture et date de clôture). Le lycée d'accueil revient vers cet établissement et lui envoie une convention.
+Ce dépôt étant un site statique GitHub Pages, il ne dispose pas d'un serveur pour recevoir les formulaires. L'envoi repose sur le service externe [FormSubmit](https://formsubmit.co/) (relais par e-mail, sans compte à créer pour le contributeur ni pour le destinataire).
+
+1. Définir une **adresse e-mail professionnelle de coordination** autorisée à recevoir les offres. Ne pas utiliser de données personnelles d'élèves.
+2. Dans `data/site-config.json`, renseigner `"email_propositions": "votre-adresse-professionnelle@exemple.fr"`, puis valider le commit.
+3. Envoyer une première proposition de test sur `proposer.html`. FormSubmit envoie un e-mail d'activation à cette adresse : **valider le lien reçu**. Les formulaires seront ensuite adressés à cette boîte. Les propositions reçues ne sont **jamais publiées automatiquement**.
+4. Vérifier chaque proposition reçue, ouvrir `admin.html`, ajouter la fiche, exporter `mini-stages.json`, puis remplacer `data/mini-stages.json` sur GitHub et valider le commit. Les nouvelles fiches sont datées au moment de l'export. **Si la publication est effectuée un autre jour, corriger manuellement leur `date_publication` dans le JSON à la date effective de publication.**
+
+**Sans adresse configurée**, la page offre un formulaire remplissable et les boutons **Télécharger ma proposition** / **Copier les informations**, mais l'envoi direct est désactivé. Il reste une étape de configuration nécessaire.
+
+Avant d'utiliser FormSubmit dans un cadre scolaire, faire valider le choix de ce sous-traitant externe et l'information relative au traitement des coordonnées professionnelles par l'organisme responsable. Ne recueillir **aucun nom ni aucune information personnelle d'élève**.
+
+### Procédure facultative GitHub (pour utilisateurs ayant un compte)
+
+Le formulaire GitHub historique `.github/ISSUE_TEMPLATE/proposer-mini-stage.yml` reste disponible pour les personnes qui préfèrent une contribution via Issues. Le propriétaire du dépôt peut valider une issue vérifiée par le commentaire exact `/publier-mini-stage` pour déclencher le workflow automatisé. Les contributions reçues par e-mail ne passent pas par ce workflow et doivent être publiées depuis `admin.html`.
+
+### Calcul de la période des demandes
+
+Les dates d'inscription sont distinctes des dates du mini-stage. Chaque fiche possède :
+
+- `date_publication` : date fixe de première mise en ligne, en `AAAA-MM-JJ`. Pour les deux offres initiales, cette valeur est `2026-11-16`.
+- `date_ouverture_inscription` : si renseignée, cette date s'applique ; sinon, le site prend `date_publication`.
+- `date_limite_inscription` : si renseignée, cette date s'applique ; sinon, le site prend le **1er mai suivant l'ouverture des demandes**, inclus. Par exemple, publication le 16 novembre 2026 → clôture le 1er mai 2027.
+- Toute date explicitement communiquée par le lycée est prioritaire sur le calcul par défaut.
+
+**Important :** si `date_publication` est manquante pour une fiche sans date d'ouverture, le site indique « Période à confirmer », afin de ne pas ouvrir arbitrairement une demande au jour de la visite. Ne pas remplir cette date avec une date supposée.
 
 ### Feu de signalisation des inscriptions
 
 - **Vert – Inscription possible** : les deux dates de la période de demandes sont connues et le jour actuel est compris entre elles, bornes incluses, et aucune fermeture n'est signalée.
 - **Rouge – Inscription terminée** : la période est clôturée, le mini-stage est passé ou le nombre annoncé de places est égal à zéro.
-- **Gris – À confirmer / ouverture à venir** : la période n'a pas commencé ou une des dates nécessaires manque. Le site n'affiche jamais un feu vert sur la base d'une seule date.
+- **Gris – À confirmer / ouverture à venir** : la période n'a pas commencé ou une date indispensable à son calcul manque.
 
 Les libellés sont affichés en texte à côté des feux, pour rester accessibles sans perception des couleurs.
