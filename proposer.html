@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#143b52">
+  <meta name="description" content="Proposer un mini-stage dans un lycée du secteur : soumettez les informations pour validation avant publication.">
+  <title>Proposer un mini-stage — Les lycées du secteur</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+  .proposal-main{background:#fafcfc;min-height:75vh;padding:65px 0 90px}
+  .proposal-shell{max-width:940px;margin:0 auto;padding:0 18px}
+  .proposal-top{max-width:760px}.proposal-top h1{font-size:clamp(34px,4.5vw,55px);line-height:1.12;letter-spacing:-.035em;margin:8px 0 16px}
+  .proposal-top p{font-size:17px;line-height:1.65;color:#495e68}
+  .proposal-layout{display:grid;grid-template-columns:1fr .75fr;gap:25px;margin-top:32px}
+  .proposal-panel{border:1px solid #d9e4e2;border-radius:16px;background:white;padding:30px;box-shadow:0 12px 30px #12333a09}
+  .proposal-panel h2{font-size:21px;margin:0 0 15px}.proposal-panel p{font-size:14px;line-height:1.7;margin:0 0 17px}
+  .proposal-panel ol{padding-left:21px;margin:0 0 25px}.proposal-panel li{margin:12px 0;font-size:14px;line-height:1.6}
+  .proposal-action{display:inline-flex;align-items:center;gap:8px;justify-content:center;background:#143b52;border-radius:8px;padding:16px 22px;color:white;font-size:14px;font-weight:800;text-decoration:none;max-width:100%}
+  .proposal-action:hover{background:#216c70;color:white}.proposal-warning{font-size:12px!important;color:#657680}
+  .proposal-side{background:#edf7f5}.proposal-side ul{padding-left:20px;margin:10px 0 20px}.proposal-side li{font-size:14px;line-height:1.6;margin:8px 0}
+  .proposal-side strong{color:#175951}
+  @media(max-width:740px){.proposal-main{padding:38px 0 60px}.proposal-layout{grid-template-columns:1fr}.proposal-panel{padding:23px}.proposal-action{width:100%}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#proposer">Aller à la proposition</a>
+  <header class="site-header"><div class="container nav-inner">
+    <a href="./" class="brand" aria-label="Accueil du catalogue"><span class="brand-mark" aria-hidden="true">✦</span><span class="brand-text"><strong>mini-stages<span class="brand-dot">.</span></strong><small>Les lycées du secteur</small></span></a>
+    <nav class="main-nav" aria-label="Navigation"><a href="./">← Retour aux mini-stages</a></nav>
+    <a class="mobile-nav-link" href="./">← Le catalogue</a>
+  </div></header>
+  <main id="proposer" class="proposal-main"><div class="proposal-shell">
+    <div class="proposal-top">
+      <div class="section-kicker">CONTRIBUER AU CATALOGUE</div>
+      <h1>Votre lycée propose un <em>mini-stage</em> ?</h1>
+      <p>Collègues, secrétariats et lycées d'accueil : transmettez une nouvelle proposition. Elle sera vérifiée avant son affichage sur le site.</p>
+    </div>
+    <div class="proposal-layout">
+      <section class="proposal-panel" aria-labelledby="proposalTitle">
+        <h2 id="proposalTitle">Transmettre une offre</h2>
+        <ol>
+          <li>Ouvrez le formulaire de proposition GitHub en cliquant ci-dessous.</li>
+          <li>Indiquez le lycée, les métiers ou formations, les dates du mini-stage et <strong>les deux dates de dépôt des demandes</strong> si elles sont connues.</li>
+          <li>Validez l'envoi. Le responsable du catalogue vérifie les informations et publie ensuite la fiche.</li>
+        </ol>
+        <a class="proposal-action" href="https://github.com/ygirardin/mini-stages-lycees/issues/new?template=proposer-mini-stage.yml" target="_blank" rel="noopener noreferrer">Remplir le formulaire de proposition ↗</a>
+        <p class="proposal-warning" style="margin-top:15px">Un compte GitHub gratuit est nécessaire pour envoyer une proposition. Le formulaire s'ouvre sur GitHub. La proposition ne s'affiche pas automatiquement dans le catalogue.</p>
+      </section>
+      <aside class="proposal-panel proposal-side" aria-labelledby="rulesTitle">
+        <h2 id="rulesTitle">À savoir avant de proposer</h2>
+        <ul>
+          <li><strong>Les inscriptions sont effectuées par l'établissement scolaire</strong> de l'élève, pendant la période de demandes annoncée.</li>
+          <li>Le lycée proposant le mini-stage <strong>envoie une convention</strong> à l'établissement ayant inscrit l'élève.</li>
+          <li>Seules les dates confirmées doivent être renseignées. Le site affiche un feu vert uniquement si les deux dates permettent de confirmer que la période est ouverte.</li>
+          <li>Ne transmettez <strong>aucune information personnelle d'élève</strong> : les propositions sont visibles publiquement sur GitHub.</li>
+        </ul>
+        <p><strong>Vous êtes responsable du catalogue ?</strong> <a href="admin.html">Accéder à la gestion des fiches ↗</a></p>
+      </aside>
+    </div>
+  </div></main>
+  <footer class="site-footer"><div class="container footer-bottom"><span>Un catalogue sans inscription directe des élèves.</span><a href="./">Retour aux offres</a></div></footer>
+</body>
+</html>
