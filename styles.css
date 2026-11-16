@@ -29,3 +29,5 @@
 .tag.status.closed,.tag.status.past,.tag.status.full{background:#fde8e6;color:#9b2525;border-color:#edb4af}
 .tag.status.closed::before,.tag.status.past::before,.tag.status.full::before{background:#d42c2c}
 .tag.status.upcoming{background:#f2f4f5;color:#57636b;border-color:#d6dfe3}
+
+.status-legend{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:19px 0 5px}.status-legend .tag{font-size:11px;line-height:1.3}
