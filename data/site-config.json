@@ -1,9 +1,9 @@
 {
   "nom_site": "Mini-stages des lycées",
-  "secteur": "Votre secteur",
+  "secteur": "Argenteuil et Ermont (premiers établissements référencés)",
   "annee_scolaire": "2026–2027",
-  "organisateur": "Réseau des établissements du secteur",
+  "organisateur": "Catalogue des mini-stages — Argenteuil et Ermont",
   "email_contact": "",
-  "message_accueil": "Découvre les formations proposées par les lycées et vis une immersion pour préparer ton orientation.",
-  "mention": "Les dates, places et modalités sont communiquées par les établissements. Vérifiez-les avant toute inscription."
+  "message_accueil": "Découvre les mini-stages proposés par les lycées. Pour t’inscrire, rapproche-toi d’abord du secrétariat de ton établissement scolaire.",
+  "mention": "Pour les inscriptions, contactez le secrétariat de votre établissement scolaire. Dates et places à confirmer."
 }
