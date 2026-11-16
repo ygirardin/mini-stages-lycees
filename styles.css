@@ -20,3 +20,12 @@
 
 /* Procédure de demande : mise en avant, accessible sur mobile. */
 .request-notice{background:#fafcfc;padding:28px 0 0}.request-notice-inner{display:grid;grid-template-columns:minmax(220px,0.8fr) minmax(0,1.4fr);gap:34px;padding:28px 32px;border:1px solid #cddfdd;border-radius:17px;background:#edf7f5}.request-notice h2{font-size:clamp(22px,2.5vw,30px);line-height:1.18;margin:0}.request-notice p{font-size:14px;line-height:1.6;margin:0 0 12px}.request-notice p:last-child{margin-bottom:0}@media(max-width:750px){.request-notice-inner{grid-template-columns:1fr;gap:16px;padding:23px 21px}.request-notice{padding-top:18px}}
+
+/* Indicateur visuel de l'état des inscriptions : couleur + libellé accessible. */
+.tag.status{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:8px 11px;background:#f1f3f4;color:#57636b;border:1px solid #d6dfe3;font-weight:800}
+.tag.status::before{content:"";display:inline-block;flex:none;height:10px;width:10px;border-radius:50%;background:#89959c;box-shadow:0 0 0 2px #fff}
+.tag.status.open{background:#e2f6e9;color:#17643b;border-color:#9aceaf}
+.tag.status.open::before{background:#168343}
+.tag.status.closed,.tag.status.past,.tag.status.full{background:#fde8e6;color:#9b2525;border-color:#edb4af}
+.tag.status.closed::before,.tag.status.past::before,.tag.status.full::before{background:#d42c2c}
+.tag.status.upcoming{background:#f2f4f5;color:#57636b;border-color:#d6dfe3}
