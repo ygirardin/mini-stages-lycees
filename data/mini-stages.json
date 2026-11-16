@@ -21,7 +21,8 @@
     "contact_email": "servicerecrutement@garac.com",
     "url_lycee": "https://www.garac.com",
     "contact_telephone": "01 34 34 37 41",
-    "url_document": "documents/garac-mini-stage-2026-2027.html"
+    "url_document": "documents/garac-mini-stage-2026-2027.html",
+    "date_publication": "2026-11-16"
   },
   {
     "id": "ferdinand-buisson-decouverte-2026-2027",
@@ -45,6 +46,7 @@
     "contact_email": "ministage.0950657y@ac-versailles.fr",
     "url_lycee": "https://lyc-buisson-ermont.ac-versailles.fr",
     "contact_telephone": "01 34 15 70 61",
-    "url_document": "documents/lycee-ferdinand-buisson-mini-stages-2026-2027.html"
+    "url_document": "documents/lycee-ferdinand-buisson-mini-stages-2026-2027.html",
+    "date_publication": "2026-11-16"
   }
 ]
