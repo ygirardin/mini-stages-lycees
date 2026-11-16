@@ -62,9 +62,24 @@
     select.value = values.includes(oldValue) ? oldValue : '';
   }
   function formatMonth(value) { const [year, month] = value.split('-').map(Number); return monthFormat.format(new Date(year, month - 1, 1)).replace(/^./, c => c.toUpperCase()); }
+  function visualForStage(stage) {
+    const topic = normalize([stage.domaine, stage.formation, stage.description].join(' '));
+    if (/auto|moto|transport|carross|vehicule/.test(topic)) return { icon: '🚗', tone: 'blue' };
+    if (/santé|sante|soin|social|medic/.test(topic)) return { icon: '🩺', tone: 'coral' };
+    if (/numero|informat|program|digital|code|logiciel/.test(topic)) return { icon: '💻', tone: 'purple' };
+    if (/couture|mode|design|textile|art/.test(topic)) return { icon: '🎨', tone: 'coral' };
+    if (/menuiser|batiment|métall|metall|thermiq|sanitair|energie|industrie|techniq/.test(topic)) return { icon: '🛠️', tone: 'yellow' };
+    if (/commerce|vente|relation client/.test(topic)) return { icon: '🛍️', tone: 'purple' };
+    if (/nature|environnement|agricultur|jardin/.test(topic)) return { icon: '🌱', tone: 'mint' };
+    if (/restauration|cuisine|hotellerie/.test(topic)) return { icon: '🍳', tone: 'coral' };
+    return { icon: '🎓', tone: 'blue' };
+  }
   function makeCard(stage) {
     const status = stageStatus(stage);
     const card = node('article', 'stage-card');
+    const visual = visualForStage(stage);
+    card.classList.add(`card-tone-${visual.tone}`);
+    card.append(node('div', 'card-visual', visual.icon));
     const top = node('div', 'card-top');
     const badges = node('div', 'card-badges');
     badges.append(node('span', 'tag', text(stage.domaine) || 'Découverte'));
