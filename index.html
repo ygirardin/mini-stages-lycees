@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#143b52">
+  <meta name="theme-color" content="#1642C6">
   <meta name="description" content="Trouver un mini-stage dans les lycées de son secteur : formations, dates, communes et modalités d'inscription.">
   <title>Mini-stages des lycées — Explorer, découvrir, choisir</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme-vibrant.css">
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -21,9 +22,9 @@
     <div class="container nav-inner">
       <a href="./" class="brand" aria-label="Accueil des mini-stages">
         <span class="brand-mark" aria-hidden="true">
-          <svg width="29" height="29" viewBox="0 0 32 32" fill="none"><path d="M3 12 16 5l13 7-13 7L3 12Z" fill="#F0C587"/><path d="M8 18v6c5 4 11 4 16 0v-6l-8 4-8-4Z" fill="white"/><path d="M27 14v10" stroke="#F0C587" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg width="33" height="33" viewBox="0 0 40 40" fill="none"><path d="M3 15 20 6l17 9-17 9L3 15Z" fill="#fff"/><path d="M9 22v8c7 6 16 6 22 0v-8l-11 6L9 22Z" fill="#B7E9FF"/><path d="M35 18v12" stroke="#FFE05D" stroke-width="3" stroke-linecap="round"/><circle cx="35" cy="33" r="3" fill="#FFE05D"/></svg>
         </span>
-        <span class="brand-text"><strong>mini-stages<span class="brand-dot">.</span></strong><small>Les lycées du secteur</small></span>
+        <span class="brand-text"><strong>Mini-stages</strong><small>des lycées</small></span>
       </a>
       <nav class="main-nav" aria-label="Navigation principale">
         <a href="#offres">Les mini-stages</a>
@@ -40,21 +41,38 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <div class="eyebrow"><span class="eyebrow-line"></span><span id="schoolYear">ANNÉE SCOLAIRE 2026–2027</span></div>
-          <h1 id="heroTitle">La bonne orientation commence par <em>une découverte.</em></h1>
+          <h1 id="heroTitle">Trouve ton orientation grâce aux <em>mini-stages</em></h1>
           <p id="heroIntro">Découvre les formations proposées par les lycées et vis une immersion pour préparer ton orientation.</p>
-          <a href="#offres" class="button button-light">Trouver mon mini-stage <span aria-hidden="true">↗</span></a>
+          <div class="hero-actions">
+            <a href="#recherche" class="button button-light"><span aria-hidden="true">⌕</span> Explorer les mini-stages</a>
+            <a href="proposer.html" class="button button-coral"><span aria-hidden="true">＋</span> Proposer un mini-stage</a>
+          </div>
           <div class="hero-location"><span aria-hidden="true">◎</span><span>Des opportunités dans <strong id="sectorName">votre secteur</strong></span></div>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="hero-orbit hero-orbit-one"></div><div class="hero-orbit hero-orbit-two"></div>
-          <div class="art-card art-card-back"><span class="art-card-icon">✦</span><span>Explore les<br><strong>possibilités</strong></span></div>
-          <div class="art-card art-card-main">
-            <div class="art-card-top"><span class="art-icon">↗</span><span class="art-label">TON PROCHAIN PAS</span></div>
-            <div class="art-illustration"><span class="illus-building"><i></i><i></i><i></i><b></b></span><span class="illus-sun"></span></div>
-            <strong>Un métier à découvrir.<br>Un avenir à imaginer.</strong>
-            <div class="art-card-bottom"><span class="mini-avatars">★ <span>✦</span></span><span>Visite · Échange · Découvre</span></div>
+        <div class="hero-art">
+          <img class="hero-illustration" src="assets/hero-orientation.svg" width="920" height="610"
+               alt="Illustration de quatre élèves fictifs explorant ensemble des métiers avec un ordinateur et une tablette.">
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-search" id="recherche" aria-label="Rechercher un mini-stage">
+      <div class="container">
+        <div class="filter-panel">
+          <div class="filter-head"><strong>Quel métier veux-tu découvrir ?</strong><span>Filtre les offres pour préparer ton orientation.</span></div>
+          <div class="search-field">
+            <span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg></span>
+            <label class="sr-only" for="searchInput">Rechercher un lycée, une formation ou un mot-clé</label>
+            <input type="search" id="searchInput" placeholder="Un lycée, une formation, un métier…" autocomplete="off">
+            <kbd class="desktop-only">Rechercher</kbd>
           </div>
-          <div class="art-sticker">100%<small> découverte</small></div>
+          <div class="filter-row">
+            <div class="filter-select"><label for="domainFilter">Domaine</label><select id="domainFilter"><option value="">Tous les domaines</option></select></div>
+            <div class="filter-select"><label for="cityFilter">Commune</label><select id="cityFilter"><option value="">Toutes les communes</option></select></div>
+            <div class="filter-select"><label for="monthFilter">Période</label><select id="monthFilter"><option value="">Toutes les périodes</option></select></div>
+            <div class="filter-select"><label for="statusFilter">Disponibilité</label><select id="statusFilter"><option value="all">Toutes les offres</option><option value="open">🟢 Inscription possible</option><option value="upcoming">À venir</option></select></div>
+          </div>
+          <a class="button filter-submit" href="#offres">Voir les mini-stages <span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -77,24 +95,11 @@
     <section class="listing-section" id="offres" aria-labelledby="offersHeading">
       <div class="container">
         <div class="section-heading">
-          <div><div class="section-kicker">LE CATALOGUE</div><h2 id="offersHeading">Explore les mini-stages</h2><p>Filtre les propositions pour trouver celle qui te ressemble.</p></div>
+          <div><div class="section-kicker">À DÉCOUVRIR DANS TON SECTEUR</div><h2 id="offersHeading">Des mini-stages pour <span class="accent-underline">explorer tes envies</span></h2><p>Des établissements réels, des métiers concrets et des informations pour préparer ton choix.</p></div>
           <div class="section-count" aria-live="polite"><strong id="totalCount">—</strong><span>mini-stage(s)<br>référencé(s)</span></div>
         </div>
 
-        <div class="filter-panel">
-          <div class="search-field">
-            <span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg></span>
-            <label class="sr-only" for="searchInput">Rechercher un lycée, une formation ou un mot-clé</label>
-            <input type="search" id="searchInput" placeholder="Un lycée, une formation, un métier…" autocomplete="off">
-            <kbd class="desktop-only">Rechercher</kbd>
-          </div>
-          <div class="filter-row">
-            <div class="filter-select"><label for="domainFilter">Domaine</label><select id="domainFilter"><option value="">Tous les domaines</option></select></div>
-            <div class="filter-select"><label for="cityFilter">Commune</label><select id="cityFilter"><option value="">Toutes les communes</option></select></div>
-            <div class="filter-select"><label for="monthFilter">Période</label><select id="monthFilter"><option value="">Toutes les périodes</option></select></div>
-            <div class="filter-select"><label for="statusFilter">Disponibilité</label><select id="statusFilter"><option value="all">Toutes les offres</option><option value="open">🟢 Inscription possible</option><option value="upcoming">À venir</option></select></div>
-          </div>
-        </div>
+
 
         <div class="status-legend" aria-label="Légende des inscriptions">
           <span class="tag status open">Inscription possible</span>
@@ -117,11 +122,11 @@
     <section class="steps-section" id="mode-emploi" aria-labelledby="stepsHeading">
       <div class="container">
         <div class="section-kicker">COMMENT ÇA MARCHE ?</div>
-        <h2 id="stepsHeading">Du choix du mini-stage<br>à la convention.</h2>
+        <h2 id="stepsHeading">Comment ça <span class="accent-underline">marche ?</span></h2>
         <div class="steps-grid">
-          <article class="step"><span class="step-num">01</span><div class="step-pict" aria-hidden="true">⌕</div><h3>Je repère</h3><p>Je choisis un mini-stage et je vérifie la période de demandes : par défaut, du jour de publication au 1er mai suivant.</p></article>
-          <article class="step"><span class="step-num">02</span><div class="step-pict" aria-hidden="true">✎</div><h3>Mon établissement fait la demande</h3><p>Pendant la période indiquée, je contacte son secrétariat pour qu'il procède à mon inscription.</p></article>
-          <article class="step"><span class="step-num">03</span><div class="step-pict" aria-hidden="true">✧</div><h3>Le lycée envoie la convention</h3><p>Le lycée d'accueil revient vers mon établissement scolaire en lui envoyant une convention, avant les formalités et l'immersion.</p></article>
+          <article class="step"><span class="step-num">01</span><div class="step-pict" aria-hidden="true">🔎</div><h3>Je repère</h3><p>Je choisis un mini-stage et je vérifie la période de demandes : par défaut, du jour de publication au 1er mai suivant.</p></article>
+          <article class="step"><span class="step-num">02</span><div class="step-pict" aria-hidden="true">🗓️</div><h3>Mon établissement fait la demande</h3><p>Pendant la période indiquée, je contacte son secrétariat pour qu'il procède à mon inscription.</p></article>
+          <article class="step"><span class="step-num">03</span><div class="step-pict" aria-hidden="true">🚀</div><h3>Le lycée envoie la convention</h3><p>Le lycée d'accueil revient vers mon établissement scolaire en lui envoyant une convention, avant les formalités et l'immersion.</p></article>
         </div>
       </div>
     </section>
