@@ -13,7 +13,7 @@
     <section class="admin-top"><div class="container"><div class="section-kicker">ESPACE DE PRÉPARATION DES OFFRES</div><h1>Gérer les mini-stages<br>sans écrire de code.</h1><p>Ajoutez et modifiez les fiches, puis exportez le fichier prêt à publier sur GitHub. Cet espace est un éditeur local : il n'envoie aucune donnée sur un serveur.</p></div></section>
     <div class="container admin-layout">
       <div>
-        <section class="admin-panel" aria-labelledby="formTitle"><h2 id="formTitle">Ajouter un mini-stage</h2><p class="subtle">Une fiche correspond à une séance ou à une période d'immersion. Les champs marqués d'un * sont obligatoires.</p>
+        <section class="admin-panel" aria-labelledby="formTitle"><h2 id="formTitle">Ajouter un mini-stage</h2><p class="subtle">Une fiche correspond à une séance ou à une période d'immersion. Les champs marqués d'un * sont obligatoires. Si la date n'est pas annoncée, laissez-la vide.</p>
           <div class="admin-intro-note"><strong>Attention :</strong> les modifications ne sont pas publiées immédiatement. Exportez le JSON, puis remplacez le fichier du dépôt GitHub pour mettre le site à jour.</div>
           <form id="stageForm" class="admin-form">
             <div class="field wide"><label for="lycee">Nom du lycée <span class="req">*</span></label><input id="lycee" name="lycee" required maxlength="140" placeholder="Ex. : Lycée des Métiers …"></div>
@@ -22,7 +22,7 @@
             <div class="field wide"><label for="formation">Formation à découvrir <span class="req">*</span></label><input id="formation" name="formation" required maxlength="170" placeholder="Ex. : Bac pro Métiers du commerce et de la vente"></div>
             <div class="field"><label for="domaine">Domaine <span class="req">*</span></label><select id="domaine" name="domaine" required><option value="">Choisir un domaine</option><option>Arts, design et communication</option><option>Bâtiment et travaux publics</option><option>Commerce et vente</option><option>Énergie et industrie</option><option>Hôtellerie et restauration</option><option>Numérique</option><option>Santé et social</option><option>Transport et logistique</option><option>Agriculture et environnement</option><option>Services et administration</option><option>Autre</option></select></div>
             <div class="field"><label for="type_formation">Type de formation</label><select id="type_formation" name="type_formation"><option value="">À préciser</option><option>CAP</option><option>Bac pro</option><option>Bac techno</option><option>Bac général</option><option>Seconde professionnelle</option><option>BTS</option><option>Autre</option></select></div>
-            <div class="field"><label for="date_debut">Date du mini-stage <span class="req">*</span></label><input id="date_debut" name="date_debut" type="date" required></div>
+            <div class="field"><label for="date_debut">Date du mini-stage (si connue)</label><input id="date_debut" name="date_debut" type="date"></div>
             <div class="field"><label for="date_fin">Date de fin (facultatif)</label><input id="date_fin" name="date_fin" type="date"><span class="hint">Pour une immersion sur plusieurs jours.</span></div>
             <div class="field"><label for="horaire">Horaires</label><input id="horaire" name="horaire" placeholder="Ex. : 9h00 – 12h00" maxlength="80"></div>
             <div class="field"><label for="public">Public concerné</label><input id="public" name="public" value="Élèves de 3e" maxlength="90"></div>
