@@ -17,17 +17,17 @@
   function text(value) { return String(value ?? '').trim(); }
   function normalize(value) { return text(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('fr-FR'); }
   function dateObject(value) { if (!/^\d{4}-\d{2}-\d{2}$/.test(text(value))) return null; const d = new Date(`${value}T12:00:00`); return Number.isNaN(d.valueOf()) ? null : d; }
-  function prettyDate(value) { const d = dateObject(value); return d ? dateFormat.format(d) : 'Date à préciser'; }
+  function prettyDate(value) { const d = dateObject(value); return d ? dateFormat.format(d) : 'Dates à confirmer'; }
   function datesText(stage) { const end = text(stage.date_fin); return end && end !== stage.date_debut ? `Du ${prettyDate(stage.date_debut)} au ${prettyDate(end)}` : prettyDate(stage.date_debut); }
   function validUrl(value) { try { const url = new URL(text(value)); return ['https:', 'http:'].includes(url.protocol) ? url.href : ''; } catch { return ''; } }
   function validEmail(value) { const v = text(value); return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : ''; }
   function node(tag, className, content) { const n = document.createElement(tag); if (className) n.className = className; if (content !== undefined) n.textContent = content; return n; }
   function appendTextLine(parent, className, label) { const line = node('div', className); line.textContent = label; parent.append(line); return line; }
   function stageStatus(stage) {
-    if (text(stage.date_fin || stage.date_debut) < today) return { code: 'past', label: 'Terminé' };
+    if (text(stage.date_fin || stage.date_debut) && text(stage.date_fin || stage.date_debut) < today) return { code: 'past', label: 'Terminé' };
     if (stage.places !== null && stage.places !== undefined && stage.places !== '' && Number(stage.places) === 0) return { code: 'full', label: 'Complet (indiqué)' };
     if (text(stage.date_limite_inscription) && stage.date_limite_inscription < today) return { code: 'closed', label: 'Délai dépassé' };
-    return { code: 'upcoming', label: 'À venir' };
+    return { code: 'upcoming', label: text(stage.date_debut) ? 'À venir' : 'Dates à confirmer' };
   }
   function sortStages(a, b) { return text(a.date_debut).localeCompare(text(b.date_debut)) || text(a.lycee).localeCompare(text(b.lycee), 'fr'); }
   function unique(values) { return [...new Set(values.map(text).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })); }
@@ -83,15 +83,17 @@
     detailInfo(infos, 'Limite d’inscription', stage.date_limite_inscription ? prettyDate(stage.date_limite_inscription) : '');
     detailInfo(infos, 'Adresse', stage.adresse);
     body.append(infos);
-    for (const [heading, value] of [['À propos de ce mini-stage', stage.description], ['Modalités pratiques', stage.modalites]]) {
+    for (const [heading, value] of [['À propos de ce mini-stage', stage.description], ['Métiers à découvrir', stage.metiers], ['Modalités pratiques', stage.modalites]]) {
       if (!text(value)) continue; const block = node('section', 'detail-block'); block.append(node('h3', '', heading), node('p', '', text(value))); body.append(block);
     }
+    const inscription = node('section','detail-block'); inscription.append(node('h3','','Comment s’inscrire ?'), node('p','','Pour toute inscription, prenez d’abord contact avec le secrétariat de votre établissement scolaire (collège ou lycée). Il vous indiquera les démarches et les modalités du lycée d’accueil.')); body.append(inscription);
     const links = node('div', 'detail-links'); const registrationUrl = validUrl(stage.url_inscription), schoolUrl = validUrl(stage.url_lycee), email = validEmail(stage.contact_email);
     if (!demoMode && registrationUrl) links.append(actionLink('Consulter l’inscription  ↗', registrationUrl, 'button button-dark'));
     if (!demoMode && schoolUrl) links.append(actionLink('Site du lycée ↗', schoolUrl));
+    if (!demoMode && /^documents\/[\w./-]+\.html$/.test(text(stage.url_document))) links.append(actionLink('Consulter la fiche source ↗', stage.url_document));
     if (!demoMode && email) links.append(actionLink('Contacter le lycée ↗', `mailto:${email}`));
     if (links.childElementCount) body.append(links);
-    body.append(node('p', 'detail-fineprint', demoMode ? 'Ceci est une fiche fictive de démonstration. Aucune inscription possible.' : 'Les disponibilités ne sont pas actualisées en temps réel. Vérifiez la date et les modalités directement auprès du lycée.'));
+    body.append(node('p', 'detail-fineprint', demoMode ? 'Ceci est une fiche fictive de démonstration. Aucune inscription possible.' : 'Le site ne recueille aucune demande d’inscription. Dates et places à confirmer auprès des établissements.'));
     content.append(header, body); $('detailDialog').showModal();
   }
   function activeFilters() { return !!($('searchInput').value || $('domainFilter').value || $('cityFilter').value || $('monthFilter').value || $('statusFilter').value !== 'all'); }
@@ -100,7 +102,7 @@
     const q = normalize($('searchInput').value), domain = $('domainFilter').value, city = $('cityFilter').value, month = $('monthFilter').value, statusFilter = $('statusFilter').value;
     return state.stages.filter(s => {
       const status = stageStatus(s);
-      if (q && !normalize([s.lycee, s.commune, s.formation, s.domaine, s.type_formation, s.description, s.public].join(' ')).includes(q)) return false;
+      if (q && !normalize([s.lycee, s.commune, s.formation, s.domaine, s.type_formation, s.description, s.metiers, s.public].join(' ')).includes(q)) return false;
       if (domain && text(s.domaine) !== domain) return false;
       if (city && text(s.commune) !== city) return false;
       if (month && !text(s.date_debut).startsWith(month)) return false;
@@ -141,7 +143,7 @@
     try {
       const rows = await fetchJson(demoMode ? 'data/exemples.json' : 'data/mini-stages.json');
       if (!Array.isArray(rows)) throw new Error('Les données doivent contenir une liste JSON.');
-      state.stages = rows.filter(s => s && typeof s === 'object' && text(s.lycee) && text(s.formation) && dateObject(s.date_debut)).sort(sortStages);
+      state.stages = rows.filter(s => s && typeof s === 'object' && text(s.lycee) && text(s.formation) && (!text(s.date_debut) || dateObject(s.date_debut))).sort(sortStages);
     } catch (error) { console.error('Chargement des offres', error); state.failed = true; }
     populateSelect('domainFilter', unique(state.stages.map(s => s.domaine)));
     populateSelect('cityFilter', unique(state.stages.map(s => s.commune)));
