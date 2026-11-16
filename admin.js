@@ -3,7 +3,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const fields = ['lycee', 'commune', 'adresse', 'formation', 'domaine', 'type_formation', 'date_debut', 'date_fin', 'horaire', 'public', 'places', 'date_limite_inscription', 'description', 'modalites', 'url_inscription', 'contact_email', 'url_lycee'];
+  const fields = ['lycee', 'commune', 'adresse', 'formation', 'domaine', 'type_formation', 'date_debut', 'date_fin', 'horaire', 'public', 'places', 'date_limite_inscription', 'description', 'metiers', 'modalites', 'url_inscription', 'contact_email', 'contact_telephone', 'url_lycee', 'url_document'];
   let rows = [], editId = null, changed = false;
   const clean = value => String(value ?? '').trim();
   const element = (tag, cls, content) => { const node = document.createElement(tag); if (cls) node.className = cls; if (content !== undefined) node.textContent = content; return node; };
