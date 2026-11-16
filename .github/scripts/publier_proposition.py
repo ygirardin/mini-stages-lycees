@@ -7,6 +7,7 @@ import pathlib
 import re
 import sys
 from urllib.parse import urlparse
+from zoneinfo import ZoneInfo
 
 FIELDS = {
     "Nom du lycée": "lycee",
@@ -109,6 +110,8 @@ def main():
         if parsed.scheme not in {"http", "https"} or not parsed.netloc:
             raise ValueError("L'URL du lycée doit commencer par https:// ou http://")
 
+    # La publication est datée au moment de la validation, en heure de Paris.
+    publication = dt.datetime.now(ZoneInfo("Europe/Paris")).date().isoformat()
     issue_number = issue["number"]
     item = {
         "id": f"proposition-github-{issue_number}",
@@ -123,6 +126,7 @@ def main():
         "horaire": data.get("horaire", ""),
         "public": data.get("public", ""),
         "places": data["places"],
+        "date_publication": publication,
         "date_ouverture_inscription": a,
         "date_limite_inscription": b,
         "description": data.get("description", ""),
@@ -143,6 +147,10 @@ def main():
     current = json.loads(file.read_text(encoding="utf-8"))
     if not isinstance(current, list):
         raise ValueError("Le catalogue doit contenir une liste")
+    # Une republication de la même proposition ne rouvre pas ses demandes.
+    previous = next((row for row in current if row.get("id") == item["id"]), None)
+    if previous and previous.get("date_publication"):
+        item["date_publication"] = previous["date_publication"]
     current = [entry for entry in current if entry.get("id") != item["id"]]
     current.append(item)
     current.sort(key=lambda entry: (not bool(entry.get("date_debut")), entry.get("date_debut", ""), entry.get("lycee", "")))
