@@ -33,12 +33,12 @@
   function stageStatus(stage) {
     const lastStageDate = text(stage.date_fin || stage.date_debut);
     const opening = text(stage.date_ouverture_inscription), deadline = text(stage.date_limite_inscription);
-    if (lastStageDate && lastStageDate < today) return { code: 'past', label: 'Terminé' };
-    if (stage.places !== null && stage.places !== undefined && stage.places !== '' && Number(stage.places) === 0) return { code: 'full', label: 'Complet (indiqué)' };
-    if (deadline && deadline < today) return { code: 'closed', label: 'Délai dépassé' };
-    if (opening && today < opening) return { code: 'upcoming', label: 'Demandes pas encore ouvertes' };
-    if (opening && deadline && opening <= today && today <= deadline) return { code: 'open', label: 'Période de demandes en cours' };
-    return { code: 'upcoming', label: 'Période des demandes à confirmer' };
+    if (lastStageDate && lastStageDate < today) return { code: 'closed', label: 'Inscription terminée' };
+    if (stage.places !== null && stage.places !== undefined && stage.places !== '' && Number(stage.places) === 0) return { code: 'closed', label: 'Inscription terminée (complet)' };
+    if (deadline && deadline < today) return { code: 'closed', label: 'Inscription terminée' };
+    if (opening && today < opening) return { code: 'upcoming', label: 'Ouverture à venir' };
+    if (opening && deadline && opening <= today && today <= deadline) return { code: 'open', label: 'Inscription possible' };
+    return { code: 'upcoming', label: 'Période à confirmer' };
   }
   function sortStages(a, b) { return text(a.date_debut).localeCompare(text(b.date_debut)) || text(a.lycee).localeCompare(text(b.lycee), 'fr'); }
   function unique(values) { return [...new Set(values.map(text).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base' })); }
@@ -55,7 +55,7 @@
     const top = node('div', 'card-top');
     const badges = node('div', 'card-badges');
     badges.append(node('span', 'tag', text(stage.domaine) || 'Découverte'));
-    badges.append(node('span', `tag status ${status.code === 'upcoming' ? '' : status.code}`, status.label));
+    badges.append(node('span', `tag status ${status.code}`, status.label));
     top.append(badges);
     top.append(node('div', 'school-line', `${text(stage.lycee)} · ${text(stage.commune)}`));
     const heading = node('h3', '', text(stage.formation) || 'Formation à préciser');
