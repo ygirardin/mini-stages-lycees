@@ -22,8 +22,8 @@
     return list.map((raw, index) => {
       if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error(`Fiche ${index + 1} invalide.`);
       const r = cleanRecord(raw, index);
-      if (!r.lycee || !r.commune || !r.formation || !r.domaine || !validDate(r.date_debut)) throw new Error(`Fiche ${index + 1} : lycée, commune, formation, domaine ou date manquant.`);
-      if (r.date_fin && (!validDate(r.date_fin) || r.date_fin < r.date_debut)) throw new Error(`Fiche ${index + 1} : date de fin invalide.`);
+      if (!r.lycee || !r.commune || !r.formation || !r.domaine || (r.date_debut && !validDate(r.date_debut))) throw new Error(`Fiche ${index + 1} : lycée, commune ou formation manquant / date invalide.`);
+      if (r.date_fin && (!validDate(r.date_fin) || (r.date_debut && r.date_fin < r.date_debut))) throw new Error(`Fiche ${index + 1} : date de fin invalide.`);
       if (r.date_limite_inscription && !validDate(r.date_limite_inscription)) throw new Error(`Fiche ${index + 1} : date limite invalide.`);
       if (r.places !== null && (!Number.isInteger(r.places) || r.places < 0)) throw new Error(`Fiche ${index + 1} : places invalides.`);
       if (!safeUrl(r.url_inscription) || !safeUrl(r.url_lycee)) throw new Error(`Fiche ${index + 1} : utiliser des liens http(s).`);
@@ -38,7 +38,7 @@
     for (const r of sorted) {
       const row = element('div', 'record-item'); const info = element('div');
       info.append(element('strong', '', r.formation));
-      info.append(element('p', '', `${r.lycee} · ${r.commune} · ${r.date_debut}`));
+      info.append(element('p', '', `${r.lycee} · ${r.commune} · ${r.date_debut || 'Dates à confirmer'}`));
       const actions = element('div', 'record-buttons');
       const edit = element('button', '', 'Modifier'); edit.type = 'button'; edit.addEventListener('click', () => editRecord(r.id));
       const remove = element('button', 'danger', 'Supprimer'); remove.type = 'button'; remove.addEventListener('click', () => deleteRecord(r.id));
