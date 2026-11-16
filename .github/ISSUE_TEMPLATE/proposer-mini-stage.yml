@@ -1,0 +1,126 @@
+name: "Proposer un mini-stage"
+description: "Transmettre un mini-stage pour vérification puis publication sur le catalogue."
+title: "[Proposition mini-stage] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de proposer un mini-stage pour le catalogue des lycées du secteur.
+        **Les propositions sont publiques sur GitHub. N'inscrivez aucun nom d'élève, aucune donnée personnelle de mineur ni aucune information confidentielle.**
+        La demande officielle d'inscription est effectuée par l'établissement scolaire de l'élève. Le lycée d'accueil lui adresse ensuite une convention.
+        Le responsable du catalogue vérifie les informations avant publication.
+  - type: input
+    id: lycee
+    attributes:
+      label: "Nom du lycée"
+      placeholder: "Ex. : Lycée professionnel..."
+    validations:
+      required: true
+  - type: input
+    id: commune
+    attributes:
+      label: "Commune"
+      placeholder: "Ex. : Ermont"
+    validations:
+      required: true
+  - type: input
+    id: formation
+    attributes:
+      label: "Formation ou métier à découvrir"
+      placeholder: "Ex. : Métiers de la couture et de la confection"
+    validations:
+      required: true
+  - type: dropdown
+    id: domaine
+    attributes:
+      label: "Domaine professionnel"
+      options:
+        - "Automobile et mobilité"
+        - "Bâtiment et travaux publics"
+        - "Commerce et vente"
+        - "Énergie et industrie"
+        - "Hôtellerie et restauration"
+        - "Numérique"
+        - "Santé et social"
+        - "Transport et logistique"
+        - "Arts, design et communication"
+        - "Agriculture et environnement"
+        - "Services et administration"
+        - "Métiers techniques et services"
+        - "Autre"
+    validations:
+      required: true
+  - type: input
+    id: adresse
+    attributes:
+      label: "Adresse du lycée"
+      placeholder: "Rue, code postal et ville"
+  - type: input
+    id: public
+    attributes:
+      label: "Public concerné"
+      placeholder: "Ex. : Élèves de 3e"
+  - type: input
+    id: date_ouverture
+    attributes:
+      label: "Ouverture des demandes"
+      description: "Au format AAAA-MM-JJ. Laisser vide si non communiquée."
+      placeholder: "2027-01-05"
+  - type: input
+    id: date_cloture
+    attributes:
+      label: "Clôture des demandes"
+      description: "Date limite, au format AAAA-MM-JJ. Laisser vide si inconnue."
+      placeholder: "2027-01-30"
+  - type: input
+    id: date_stage
+    attributes:
+      label: "Date du mini-stage"
+      description: "Au format AAAA-MM-JJ. Laisser vide si inconnue."
+      placeholder: "2027-02-05"
+  - type: input
+    id: date_fin_stage
+    attributes:
+      label: "Fin du mini-stage"
+      description: "Uniquement si le mini-stage dure plusieurs jours. Au format AAAA-MM-JJ."
+  - type: input
+    id: horaire
+    attributes:
+      label: "Horaires ou durée"
+      placeholder: "Ex. : 9 h à 12 h"
+  - type: input
+    id: places
+    attributes:
+      label: "Nombre de places"
+      description: "Nombre entier uniquement. Laisser vide si inconnu."
+      placeholder: "12"
+  - type: textarea
+    id: description
+    attributes:
+      label: "Programme et activités"
+      description: "Décrire ce que l'élève découvrira pendant l'immersion."
+    validations:
+      required: true
+  - type: textarea
+    id: modalites
+    attributes:
+      label: "Précisions sur les modalités"
+      description: "Ex. : convention, équipement requis, exigences particulières. Le secrétariat de l'établissement scolaire effectue la demande."
+  - type: input
+    id: email
+    attributes:
+      label: "Adresse mail professionnelle"
+      description: "Adresse professionnelle du lycée d'accueil, visible sur le catalogue."
+      placeholder: "mini-stages@lycee.fr"
+  - type: input
+    id: site
+    attributes:
+      label: "Site internet du lycée"
+      placeholder: "https://..."
+  - type: checkboxes
+    id: accord
+    attributes:
+      label: "Confirmation"
+      options:
+        - label: "Je confirme ne communiquer aucune donnée personnelle d'élève et avoir vérifié les informations transmises."
+          required: true
