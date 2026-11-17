@@ -240,3 +240,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(prefers-reduced-motion:reduce){
   .stage-card,.button{transition:none}
 }
+/* Illustration fournie par l'utilisateur : conserver l'image complète dans le hero. */
+.hero-illustration-user{display:block;width:min(113%,680px);aspect-ratio:1672/941;height:auto;max-height:none;object-fit:contain;border-radius:22px;box-shadow:0 17px 38px rgba(22,53,135,.17);transform:translateX(7px)}
+@media(max-width:750px){.hero-illustration-user{width:min(100%,590px)!important;transform:none;margin:0 auto 13px;box-shadow:0 12px 27px rgba(22,53,135,.14)}}
