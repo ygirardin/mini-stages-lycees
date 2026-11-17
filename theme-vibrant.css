@@ -243,3 +243,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* Illustration fournie par l'utilisateur : conserver l'image complète dans le hero. */
 .hero-illustration-user{display:block;width:min(113%,680px);aspect-ratio:1672/941;height:auto;max-height:none;object-fit:contain;border-radius:22px;box-shadow:0 17px 38px rgba(22,53,135,.17);transform:translateX(7px)}
 @media(max-width:750px){.hero-illustration-user{width:min(100%,590px)!important;transform:none;margin:0 auto 13px;box-shadow:0 12px 27px rgba(22,53,135,.14)}}
+
+/* Mentions obligatoires sur la disponibilité des mini-stages */
+.availability-notice{margin-top:12px!important;padding:12px 15px;border-radius:12px;border:1px solid #F2D494;background:#FFF6DC;color:#5D431D!important;font-weight:700}
+.card-availability-notice{font-size:11px;line-height:1.55;font-weight:800;color:#765321;background:#FFF7E4;border-radius:9px;padding:9px 12px;margin:15px 0 0}
+.detail-availability-notice{border-left:4px solid #E6AA40;border-radius:8px;background:#FFF7E5;color:#614A26;font-size:13px;line-height:1.65;padding:13px 16px;margin:18px 0}
