@@ -48,5 +48,30 @@
     "contact_telephone": "01 34 15 70 61",
     "url_document": "documents/lycee-ferdinand-buisson-mini-stages-2026-2027.html",
     "date_publication": "2026-11-16"
+  },
+  {
+    "id": "ferrandi-saint-gratien-immersion-2026-2027",
+    "lycee": "FERRANDI Paris – Campus de Saint-Gratien",
+    "commune": "Saint-Gratien",
+    "adresse": "17 boulevard Pasteur, Saint-Gratien",
+    "formation": "Immersion métiers : cuisine, pâtisserie et service en salle",
+    "domaine": "Hôtellerie et restauration",
+    "type_formation": "Journée d’immersion",
+    "date_debut": "",
+    "date_fin": "",
+    "horaire": "Cuisine et salle : 8h–15h30 ; pâtisserie : 8h–12h",
+    "public": "Élèves de 3e, de seconde et de terminale",
+    "places": null,
+    "date_publication": "2026-11-17",
+    "date_ouverture_inscription": "2026-11-03",
+    "date_limite_inscription": "",
+    "description": "Journées d’immersion proposées à partir du mardi 3 novembre 2026. La date précise de participation est à convenir avec le campus. Découverte concrète de la cuisine et du service en salle sur une journée (8h00–15h30), ou de la pâtisserie sur une demi-journée (8h00–12h00). Échanges avec les équipes pédagogiques et les apprentis, au plus près des réalités professionnelles.",
+    "metiers": "Cuisine — immersion d’une journée, de 8h00 à 15h30\nService en salle — immersion d’une journée, de 8h00 à 15h30\nPâtisserie — immersion d’une demi-journée, de 8h00 à 12h00",
+    "modalites": "Le nombre de places est limité. L’établissement demande de privilégier les élèves particulièrement motivés et de revenir vers ses équipes afin de convenir d’une date d’immersion. Pour l’inscription, adressez-vous au secrétariat de votre établissement scolaire : celui-ci prendra contact avec le lycée d’accueil. Le lycée d’accueil transmet ensuite une convention à l’établissement ayant inscrit l’élève. Aucune date de séance précise ni date limite d’inscription n’est indiquée dans l’annonce ; en l’absence de date limite, le site applique sa clôture par défaut au 1er mai 2027.",
+    "url_inscription": "",
+    "contact_email": "",
+    "contact_telephone": "",
+    "url_lycee": "",
+    "url_document": ""
   }
 ]
