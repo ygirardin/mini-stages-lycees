@@ -26,14 +26,17 @@ function validUrl(value) {
 if (Array.isArray(stages)) stages.forEach((s, i) => {
   const index = `Fiche ${i + 1}`;
   if (!s || typeof s !== 'object' || Array.isArray(s)) { errors.push(`${index} : objet attendu.`); return; }
-  for (const key of ['id', 'lycee', 'commune', 'formation', 'domaine', 'date_debut']) {
+  for (const key of ['id', 'lycee', 'commune', 'formation', 'domaine']) {
     if (!String(s[key] ?? '').trim()) errors.push(`${index} : champ ${key} manquant.`);
   }
   if (ids.has(s.id)) errors.push(`${index} : identifiant en double (${s.id}).`);
   ids.add(s.id);
   if (String(s.id).startsWith('demo-') || /lyc[eé]e exemple/i.test(String(s.lycee))) errors.push(`${index} : donnée de démonstration détectée dans le catalogue réel.`);
-  if (!isDate(s.date_debut)) errors.push(`${index} : date_debut invalide (attendu AAAA-MM-JJ).`);
-  if (s.date_fin && (!isDate(s.date_fin) || s.date_fin < s.date_debut)) errors.push(`${index} : date_fin invalide ou antérieure à date_debut.`);
+  if (s.date_debut && !isDate(s.date_debut)) errors.push(`${index} : date_debut invalide (attendu AAAA-MM-JJ).`);
+  if (s.date_publication && !isDate(s.date_publication)) errors.push(`${index} : date_publication invalide.`);
+  if (s.date_ouverture_inscription && !isDate(s.date_ouverture_inscription)) errors.push(`${index} : date_ouverture_inscription invalide.`);
+  if (s.date_ouverture_inscription && s.date_limite_inscription && s.date_ouverture_inscription > s.date_limite_inscription) errors.push(`${index} : clôture des demandes antérieure à l'ouverture.`);
+  if (s.date_fin && (!isDate(s.date_fin) || (s.date_debut && s.date_fin < s.date_debut))) errors.push(`${index} : date_fin invalide ou antérieure à date_debut.`);
   if (s.date_limite_inscription && !isDate(s.date_limite_inscription)) errors.push(`${index} : date_limite_inscription invalide.`);
   if (s.places !== null && s.places !== undefined && s.places !== '' && (!Number.isInteger(s.places) || s.places < 0)) errors.push(`${index} : places doit être null ou un entier positif ou nul.`);
   if (!validUrl(s.url_inscription) || !validUrl(s.url_lycee)) errors.push(`${index} : URL invalide (http ou https uniquement).`);
