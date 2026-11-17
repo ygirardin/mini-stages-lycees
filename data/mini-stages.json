@@ -73,5 +73,30 @@
     "contact_telephone": "",
     "url_lycee": "",
     "url_document": ""
+  },
+  {
+    "id": "lycee-hotellerie-tourisme-guyancourt-mini-stages-2026-2027",
+    "lycee": "Lycée d’hôtellerie et de tourisme de Guyancourt",
+    "commune": "Guyancourt",
+    "adresse": "Place François Rabelais, 78280 Guyancourt",
+    "formation": "Découverte des métiers de l’hôtellerie, de la restauration et du tourisme",
+    "domaine": "Hôtellerie et restauration",
+    "type_formation": "Mini-stage de découverte",
+    "date_debut": "",
+    "date_fin": "",
+    "horaire": "Date et horaires précisés dans la convocation envoyée à l’établissement d’origine",
+    "public": "Selon la formation : après la 3e, la 2de GT ou le baccalauréat",
+    "places": null,
+    "date_publication": "2026-11-17",
+    "date_ouverture_inscription": "",
+    "date_limite_inscription": "",
+    "description": "Le lycée d’hôtellerie et de tourisme de Guyancourt propose un mini-stage pour découvrir une formation au choix parmi sept parcours, du CAP au BTS. Il faut indiquer un seul choix sur le formulaire. La date, l’horaire et les consignes sont communiqués par convocation à l’établissement d’origine. Journée portes ouvertes annoncée le 6 mars 2027 (distincte du mini-stage).",
+    "metiers": "Bac pro Métiers de l’hôtellerie-restauration (cuisine ET service en salle) — après la 3e ou la 2de GT\nBac pro Métiers de l’alimentation (boulangerie-pâtisserie) — après la 3e ou la 2de GT\nCAP Cuisine ET CAP CSRH (service en salle) — après la 3e\nBac technologique STHR — après la 3e ou la 2de GT\nMise à niveau en hôtellerie-restauration — après tous les bacs non hôtellerie-restauration\nBTS Management en hôtellerie-restauration — après tous les bacs hôtellerie-restauration\nBTS Tourisme — après tous les bacs",
+    "modalites": "La demande de mini-stage doit être complétée et signée par l’élève, son responsable légal et le chef de l’établissement d’origine. L’établissement scolaire transmet le formulaire complété et signé à ce.0781578s@ac-versailles.fr. IMPORTANT : ce document fait lui-même office de convention. Le lycée d’accueil envoie ensuite une convocation à l’établissement d’origine indiquant la date, l’horaire et les consignes, à transmettre à la famille. Toute demande implique un engagement de présence. Signaler dans le formulaire les dates à éviter ; prévenir le lycée en cas d’absence afin de proposer éventuellement la place à un autre candidat. Un accompagnement individuel AESH peut être mentionné et l’accompagnant peut participer. Le document n’est pris en compte que s’il est signé par toutes les parties. En l’absence de dates de dépôt indiquées dans le document, le site applique ses règles : ouverture le jour de publication et clôture automatique au 1er mai suivant, sans que cela constitue une date limite communiquée par le lycée.",
+    "url_inscription": "",
+    "contact_email": "ce.0781578s@ac-versailles.fr",
+    "contact_telephone": "01 30 96 12 00",
+    "url_lycee": "",
+    "url_document": "documents/lycee-hotellerie-tourisme-guyancourt-mini-stage-2026-2027.docx"
   }
 ]

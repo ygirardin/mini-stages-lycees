@@ -132,7 +132,7 @@
     const links = node('div', 'detail-links'); const registrationUrl = validUrl(stage.url_inscription), schoolUrl = validUrl(stage.url_lycee), email = validEmail(stage.contact_email);
     if (!demoMode && registrationUrl) links.append(actionLink('Consulter l’inscription  ↗', registrationUrl, 'button button-dark'));
     if (!demoMode && schoolUrl) links.append(actionLink('Site du lycée ↗', schoolUrl));
-    if (!demoMode && /^documents\/[\w./-]+\.html$/.test(text(stage.url_document))) links.append(actionLink('Consulter la fiche source ↗', stage.url_document));
+    if (!demoMode && /^documents\/[\w./-]+\.(?:html|docx)$/.test(text(stage.url_document))) links.append(actionLink(text(stage.url_document).endsWith('.docx') ? 'Télécharger le formulaire de demande ↗' : 'Consulter la fiche source ↗', stage.url_document));
     if (!demoMode && email) links.append(actionLink('Contacter le lycée ↗', `mailto:${email}`));
     if (links.childElementCount) body.append(links);
     body.append(node('p', 'detail-fineprint', demoMode ? 'Ceci est une fiche fictive de démonstration. Aucune inscription possible.' : 'Le site ne recueille aucune demande d’inscription. Dates et places à confirmer auprès des établissements.'));
