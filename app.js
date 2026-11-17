@@ -95,6 +95,7 @@
     appendTextLine(meta, 'meta-line', `✎   Demandes : ${demandeDates(stage)}`);
     if (stage.places !== null && stage.places !== '' && stage.places !== undefined) appendTextLine(meta, 'meta-line', `◇   ${Number(stage.places)} place(s) indiquée(s)`);
     top.append(meta);
+    top.append(node('p', 'card-availability-notice', 'Inscriptions sous réserve de places vacantes.'));
     card.append(top);
     const footer = node('div', 'card-footer');
     footer.append(node('span', 'card-type', text(stage.type_formation) || text(stage.public) || 'Immersion'));
@@ -128,6 +129,7 @@
     for (const [heading, value] of [['À propos de ce mini-stage', stage.description], ['Métiers à découvrir', stage.metiers], ['Modalités pratiques', stage.modalites]]) {
       if (!text(value)) continue; const block = node('section', 'detail-block'); block.append(node('h3', '', heading), node('p', '', text(value))); body.append(block);
     }
+    body.append(node('p', 'detail-availability-notice', 'Toute inscription est sous réserve de places vacantes, y compris lorsque la période de demandes est ouverte. Le secrétariat de l’établissement scolaire doit confirmer les disponibilités auprès du lycée d’accueil.'));
     const inscription = node('section','detail-block'); inscription.append(node('h3','','Comment se déroule la demande ?'), node('p','',`1. Pendant la période de demandes annoncée, prenez contact avec le secrétariat de votre établissement scolaire (collège ou lycée) pour qu’il effectue l’inscription. 2. L’établissement proposant le mini-stage revient ensuite vers l’établissement qui a inscrit l’élève et lui transmet une convention. 3. Le secrétariat vous accompagne pour les formalités à accomplir avant l’immersion.`)); body.append(inscription);
     const links = node('div', 'detail-links'); const registrationUrl = validUrl(stage.url_inscription), schoolUrl = validUrl(stage.url_lycee), email = validEmail(stage.contact_email);
     if (!demoMode && registrationUrl) links.append(actionLink('Consulter l’inscription  ↗', registrationUrl, 'button button-dark'));
@@ -135,7 +137,7 @@
     if (!demoMode && /^documents\/[\w./-]+\.(?:html|docx)$/.test(text(stage.url_document))) links.append(actionLink(text(stage.url_document).endsWith('.docx') ? 'Télécharger le formulaire de demande ↗' : 'Consulter la fiche source ↗', stage.url_document));
     if (!demoMode && email) links.append(actionLink('Contacter le lycée ↗', `mailto:${email}`));
     if (links.childElementCount) body.append(links);
-    body.append(node('p', 'detail-fineprint', demoMode ? 'Ceci est une fiche fictive de démonstration. Aucune inscription possible.' : 'Le site ne recueille aucune demande d’inscription. Dates et places à confirmer auprès des établissements.'));
+    body.append(node('p', 'detail-fineprint', demoMode ? 'Ceci est une fiche fictive de démonstration. Aucune inscription possible.' : 'Le site ne recueille aucune demande d’inscription. Inscriptions sous réserve de places vacantes ; dates et disponibilités à confirmer auprès des établissements.'));
     content.append(header, body); $('detailDialog').showModal();
   }
   function activeFilters() { return !!($('searchInput').value || $('domainFilter').value || $('cityFilter').value || $('monthFilter').value || $('statusFilter').value !== 'all'); }
