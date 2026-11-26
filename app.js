@@ -112,10 +112,18 @@
     const content = $('detailContent'); content.replaceChildren();
     const header = node('div', 'detail-header');
     const close = node('button', 'detail-close', '×'); close.type = 'button'; close.setAttribute('aria-label', 'Fermer la fiche'); close.addEventListener('click', () => $('detailDialog').close());
-    header.append(close, node('span', 'tag', text(stage.domaine) || 'Mini-stage'));
+    header.append(close, node('p', 'print-header-caption', 'Mini-stages des lycées • Fiche descriptive'), node('span', 'tag', text(stage.domaine) || 'Mini-stage'));
     const title = node('h2', '', text(stage.formation)); title.id = 'detailTitle'; header.append(title);
     header.append(node('p', '', `${text(stage.lycee)} · ${text(stage.commune)}`));
     const body = node('div', 'detail-body');
+    // Impression de la fiche affichée, et non du catalogue entier.
+    const printActions = node('div', 'detail-print-actions');
+    const printButton = node('button', 'button button-dark detail-print-button', '⎙  Imprimer la fiche');
+    printButton.type = 'button';
+    printButton.setAttribute('aria-label', `Imprimer la fiche de ${text(stage.formation)} — ${text(stage.lycee)}`);
+    printButton.addEventListener('click', () => window.print());
+    printActions.append(printButton);
+    body.append(printActions);
     const infos = node('div', 'detail-info');
     detailInfo(infos, 'Date', datesText(stage));
     detailInfo(infos, 'Horaires', stage.horaire);
@@ -125,6 +133,8 @@
     const effective = demandePeriode(stage);
     if (effective.openingAuto || effective.closingAuto) detailInfo(infos, 'Dates par défaut', [effective.openingAuto ? 'Ouverture dès la publication' : '', effective.closingAuto ? 'Clôture automatique au 1er mai' : ''].filter(Boolean).join(' · '));
     detailInfo(infos, 'Adresse', stage.adresse);
+    detailInfo(infos, 'Contact', stage.contact_email);
+    detailInfo(infos, 'Téléphone', stage.contact_telephone);
     body.append(infos);
     for (const [heading, value] of [['À propos de ce mini-stage', stage.description], ['Métiers à découvrir', stage.metiers], ['Modalités pratiques', stage.modalites]]) {
       if (!text(value)) continue; const block = node('section', 'detail-block'); block.append(node('h3', '', heading), node('p', '', text(value))); body.append(block);
