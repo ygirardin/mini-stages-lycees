@@ -1,0 +1,25 @@
+image: node:22-bookworm-slim
+stages:
+  - deploy
+pages:
+  stage: deploy
+  resource_group: orientation-pages
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  script:
+    - node scripts/synchroniser-grist.mjs --test
+    - node scripts/preparer-pages-forge.mjs
+    - |
+      if [ "${GRIST_ENABLED:-0}" = "1" ]; then
+        node scripts/synchroniser-grist.mjs
+      elif [ "${GRIST_ENABLED:-0}" = "0" ]; then
+        echo "Mode migration : instantané du dépôt."
+      else
+        echo "GRIST_ENABLED doit être 0 ou 1"; exit 1
+      fi
+    - cp scripts/verifier-donnees.mjs public/.verifier-donnees.mjs
+    - (cd public && node .verifier-donnees.mjs)
+    - rm public/.verifier-donnees.mjs
+  artifacts:
+    paths:
+      - public
